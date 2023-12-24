@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Part List {% endblock %}
+
+{% block style %}
+
+<style>
+.link-style {
+  text-decoration: none;
+  color: rgb(62, 29, 212);
+  font-size: 24px; /* Set font size to 16px */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  font-size: 24px; /* Maintain font size on hover */
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+
+        
+        
+   
+    <div class="container">
+         
+      <body>
+        <h2>Part Groups</h2>
+    
+        {% if part_group %}
+            <ul>
+              {% for part_group_item in part_group %}
+                <li><a href="{% url 'part_list' pk=part_group_item.id %}">{{ part_group_item.Part_group }}</a></li>
+                 {% endfor %}
+            </ul>
+        {% else %}
+            <p>No part groups available.</p>
+        {% endif %}
+    </body>
+
+
+</div>
+ {% endblock %}

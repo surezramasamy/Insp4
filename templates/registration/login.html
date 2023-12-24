@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block style %}
+
+<style>
+.link-style {
+  text-decoration: none;
+  color: rgb(62, 29, 212);
+  font-size: 24px; /* Set font size to 16px */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  font-size: 24px; /* Maintain font size on hover */
+}
+
+</style>
+
+
+
+{% if form.errors %}
+
+<p> Your username or password was incorrect,Try again</p>
+
+{% endif %}
+
+{% if next %}
+
+       {% if user.is_authenticated %}
+       <p> You dont have permission for this page </p>
+
+       {% else %}
+
+       <p> Please login to see this page </p>
+        {% endif %}
+    {% endif %}
+
+    <form method ='post' action="{% url 'login' %}">
+          {% csrf_token %}
+          {{form.username.label_tag}}
+          {{form.username}}
+           <br><br>           
+
+          {{form.password.label_tag}}
+          {{form.password}}
+          <input type="submit" value ='login'>
+          <input type="hidden" name="next" value="{{next}}">
+
+    
+
+    </form>
+
+    {% endblock %}

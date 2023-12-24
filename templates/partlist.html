@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %} Part List {% endblock %}
+
+{% block style %}
+
+<style>
+.link-style {
+  text-decoration: none;
+  color: rgb(62, 29, 212);
+  font-size: 24px; /* Set font size to 16px */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  font-size: 24px; /* Maintain font size on hover */
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+
+        
+        
+   
+    <div class="container">
+         
+    <h1>Part List</h1>
+    
+    <ul>
+        {% for part in parts %}
+          <li> <a class="link-style" href="{% url 'part_detail' pk=part.id %}">{{ part }}</a></li>
+        {% endfor %}
+    </ul>
+
+</div>
+ {% endblock %}

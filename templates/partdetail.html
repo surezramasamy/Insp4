@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %} Part List {% endblock %}
+
+{% block style %}
+
+<style>
+.link-style {
+  text-decoration: none;
+  color: rgb(62, 29, 212);
+  font-size: 24px; /* Set font size to 16px */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  font-size: 24px; /* Maintain font size on hover */
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}  
+  
+    <div class="container">
+     <div style="background:transparent !important" class="jumbotron">
+        
+    <h4>Inspection Check Sheet </h4>
+    <h7>Format No :  F-QC-IP-03,R-2 </h7>
+   
+
+   <h4><li> {{ part }} </li> </h4> <br>
+
+    <!-- Drawing Search Form -->
+    <form method="get" action="{% url 'part_detail' pk=part.id %}">
+      {% csrf_token %}
+      {{ drawing_search_form }}
+      <button type="submit" name="drawing_search_submit">Search Drawings</button>
+  </form>
+
+  {% if drawings %}
+      <h2>Drawings</h2>
+      <!-- Display the drawings as needed -->
+      <ul>
+        {% for drawing in drawings %}
+        <li>
+          {{ drawing.part_name }} - {{ drawing.part_no }}
+          <a href="{{ drawing.Drawing.url }}" target="_blank">
+          <img src="{{ drawing.Drawing.url }}" alt="{{ drawing.part_name }}">
+          </a>
+      </li>
+      </ul>
+      {% endfor %}
+  {% endif %}
+
+
+  
+
+<!-- Listing checks -->
+<div class="container">
+<table class="table table-bordered">
+
+    <thead style="background-color:#fdc001;">
+        <tr>
+     {% for check in checks|slice:":1" %}   
+      {%if check.checkpoint %}
+     
+      <th>Check Point</th>
+      <th>UOM</th>
+      <th>Checking_Method</th>
+      <th>Spec Min</th>
+       <th>Spec Max </th>
+      
+       <th>Actual</th>
+       <th>Remarks</th>
+       {% endif %}  
+       {% endfor %} 
+        </tr>
+
+      </thead>
+
+   <div class="container">
+    <form method="post" novalidate enctype="multipart/form-data" class="form-horizontal">
+    <div class="form-group">
+     {% csrf_token %}     
+      {% for i in form1 %}
+      <div class="row">
+      <label for="{{ i.id_for_label }} class="col-sm-2 col-form-label">{{ i.label }}</label>
+      <div class="col-sm-10">
+      {{ i }}     
+      </div>           
+       {% endfor %}  <br>  <br>  
+      
+     {{ formset.management_form }}
+      {% for check in checks %}
+      {% for form in formset %} 
+      {% if forloop.counter == forloop.parentloop.counter %}
+      {%if check.checkpoint %}
+     <tr>
+       <td>{{check.checkpoint}}</td>
+        <td> {{check.uom}} </td>
+        <td> {{check.checking_method}} </td>
+        {%if check.spec_min %}
+        <td>{{check.spec_min}}</td>
+        <td>{{check.spec_max}}</td>
+        {% else %}
+        <td> {{ form.Var_spec_min }}</td>  
+        <td> {{ form.Var_spec_max }}</td>
+        {% endif %} 
+
+      <td> {{ form.Actual }}</td>  
+      <td> {{ form.Remarks}}</td>  
+      {% endif %}
+      
+        </tr>
+        {% endif %}    
+        {% endfor %}
+        {% endfor %}
+
+ </table>
+</div>
+
+
+<div class="container">
+  <table class="table table-bordered">
+  
+      <thead style="background-color:#fdc001;">
+          <tr>
+ 
+        
+         {% for check in checks|slice:":1" %}   
+         {%if check.Requirement %}
+         <th>Requirement (Checking_Method: Visual) </th>
+         <th>Observation </th>
+         <th>Upload Photo </th>
+         {% endif %}
+         {% endfor %}
+  
+  
+  
+          </tr>
+  
+        </thead>
+  
+     <div class="container">
+      <form method="post" novalidate enctype="multipart/form-data">
+      <div class="form-group">
+       {% csrf_token %}      
+        
+       {{ formset.management_form }}
+        {% for check in checks %}
+        {% for form in formset %} 
+        {% if forloop.counter == forloop.parentloop.counter %}
+  
+        {%if check.Requirement %}
+        <td>{{check.Requirement}}</td> 
+        <td> {{ form.Observation }}</td>  
+        <td> {{ form.Photo }}</td> 
+        {% endif %}
+          </tr>
+          {% endif %}    
+          {% endfor %}
+          {% endfor %}
+  
+   </table>
+  </div>
+
+
+<input type="submit" name="inspection_submit" value="Submit" class="btn btn-primary">
+</form>
+</div>
+</div>
+
+
+{% endblock %}

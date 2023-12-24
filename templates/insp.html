@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %} Part List {% endblock %}
+
+{% block style %}
+
+<style>
+.link-style {
+  text-decoration: none;
+  color: rgb(62, 29, 212);
+  font-size: 24px; /* Set font size to 16px */
+}
+
+.link-style:hover {
+  text-decoration: none;
+  color: rgb(128, 128, 128);
+  font-size: 24px; /* Maintain font size on hover */
+}
+
+</style>
+
+<style>
+  /* Add this style for the 'not-ok' class */
+  .not-ok {
+    color: red;
+    font-weight: bold; /* You can adjust the styling as needed */
+  }
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #a01414;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #d4941e;
+  color: white;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#select-all").click(function(){
+                $(".individual-checkbox").prop('checked', $(this).prop('checked'));
+            });
+        });
+</script>
+
+<br>
+<div class="container">
+<form method="post" action="{% url 'Insp' %}">
+    {% csrf_token %}
+    {{search_form1}}
+    <br>
+    <br><button class="btn btn-primary mt-3" type="submit">Search</button>
+ 
+
+
+
+
+{% if Insp_qs1 %}
+<input type="checkbox" id="select-all"> Select All
+<table id="customers">
+
+   <thead>
+    <th>Select</th>
+    <th>Project</th> 
+    <th>Part</th>           
+     <th>Checkpoint</th>
+     <th>UOM</th>
+     <th>Spec_Min</th>
+     <th>Spec_Max</th>
+     <th>Actuals</th>
+      <th>Result</th>
+     <th>Remarks</th>
+     <th>Requirement</th>
+     <th>Observation</th>    
+     <th>Reported_By</th>
+     <th>Photo</th>
+    
+     <th></th>
+    
+  </thead>
+     {% for i in Insp_qs1 %}
+    <tr> 
+      <td><input type="checkbox" name="selected_inspections" value="{{ inspection.id }}"></td>
+      <td>{{i.project.project_code}}</td>
+      <td>{{i.check_point.part.part}}</td>
+      <td>{{i.check_point.checkpoint}}</td>
+      <td>{{i.check_point.uom}}</td>
+      <td>{{i.check_point.spec_min}}</td>
+      <td>{{i.check_point.spec_max}}</td>
+      <td>{% if i.Actual %}{{i.Actual}} {% endif %}</td> 
+ 
+      {% if i.Result == "Not_Ok" %}
+     <td class="not-ok">{% if i.Result %}{{ i.Result }} {% endif %}</td>
+            {% else %}
+      <td>{% if i.Result %}{{i.Result}} {% endif %}</td>
+      {% endif %} 
+      <td>{% if i.Remarks %} {{i.Remarks}} {% endif %}</td>
+      <td> {% if i.check_point.Requirement %} {{i.check_point.Requirement}} {% endif %}</td>
+      {% if i.Observation == "Not_ok" %}
+      <td class="not-ok"> {% if i.Observation %}{{i.Observation}} {% endif %}</td> 
+      {% else %}
+      <td>{% if i.Observation %}{{i.Observation}} {% endif %}</td> 
+      {% endif %} 
+      <td>{{i.Reported_by.username}}</td> 
+
+          
+      {% if i.Photo %}      
+        <td><img src="{{i.Photo.url|default_if_none:'#'}}" width="300" height="200"></td>
+        <!-- <<td><a href="{{i.Photo.url|default_if_none:'#'}}"download>{{i.Photo}}</a></td> -->
+        {% else%}
+        {% endif %}
+        
+        
+          {% endfor %}
+          {% endif %}
+                </tr>
+
+</table>
+<br><br>
+
+<button type="submit" name="approve_selected">Approve Selected</button>
+</form>
+</div>
+</div>
+{% endblock %}

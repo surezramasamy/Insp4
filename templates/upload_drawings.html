@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %} Upload Drawings {% endblock %}
+
+{% block style %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Drawings</title>
+</head>
+<body>
+    <h2>Step 2: Upload Drawings</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Render the formset -->
+        {{ formset.management_form }}
+        {{ formset.non_form_errors }}
+        
+        {% for form in formset %}
+            <div>
+                {{ form.part_no.label_tag }}
+                {{ form.part_no }}
+                {{ form.part_no.errors }}
+
+                {{ form.part_name.label_tag }}
+                {{ form.part_name }}
+                {{ form.part_name.errors }}
+
+                {{ form.integer_field.label_tag }}
+                {{ form.integer_field }}
+                {{ form.integer_field.errors }}
+
+                {{ form.additional_integer.label_tag }}
+                {{ form.additional_integer }}
+                {{ form.additional_integer.errors }}
+
+                {{ form.Drawing.label_tag }}
+                {{ form.Drawing }}
+                {{ form.Drawing.errors }}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
+{% endblock %}
