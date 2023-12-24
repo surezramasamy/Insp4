@@ -129,7 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL='/'
 
-CSRF_TRUSTED_ORIGINS=["http://172.20.48.1:9080","http://192.168.0.104:9080"]
+CSRF_TRUSTED_ORIGINS=["https://web-production-fb148.up.railway.app"]
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
