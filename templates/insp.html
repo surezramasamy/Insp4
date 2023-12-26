@@ -71,6 +71,7 @@
 </script>
 
 <br>
+<div style="background:transparent !important" class="jumbotron"></div>
 <div class="container">
 <form method="post" action="{% url 'Insp' %}">
     {% csrf_token %}
@@ -147,6 +148,7 @@
 
 <button type="submit" name="approve_selected">Approve Selected</button>
 </form>
+</div>
 </div>
 </div>
 {% endblock %}

@@ -91,13 +91,15 @@ class Admin1(admin.ModelAdmin):
                     'Result','Remarks','Requirement','Observation','Photo','Reported_by','Approved_by']
     
 
-class Admin2(admin.ModelAdmin):    
-    
+class Admin2(admin.ModelAdmin):   
     list_display = ['part','part_group']
+
+class Admin3(admin.ModelAdmin):     
+    list_display = ['part_no','part_name','Drawing']
 
 
 admin.site.register(Part_group)
 admin.site.register(Part,Admin2)
 admin.site.register(Check,Admin)
 admin.site.register(Inspection,Admin1)
-admin.site.register(Part_detail)
+admin.site.register(Part_detail,Admin3)

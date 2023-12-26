@@ -14,13 +14,14 @@
 </head>
 <body>
     <h2>Step 1: Input Number of Extra Forms</h2>
-
+     <div class="container">
     <form method="post">
         {% csrf_token %}
         <label for="num_extra_forms">Number of Extra Forms:</label>
         <input type="number" name="num_extra_forms" id="num_extra_forms" value="1" min="0">
         <button type="submit">Next</button>
     </form>
+</div>
 </body>
 </html>
 

@@ -11,7 +11,7 @@
 </head>
 <body>
     <h2>Step 2: Upload Drawings</h2>
-
+     <div class="container">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         
@@ -45,6 +45,7 @@
 
         <button type="submit">Upload</button>
     </form>
+</div>
 </body>
 </html>
 {% endblock %}
